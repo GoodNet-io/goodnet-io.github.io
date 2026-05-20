@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="GoodNet — a networking integrator kernel. Multi-path transports, plug-in security, peer-key addressing, real SSH replacement."
+    />
+    <meta name="color-scheme" content="dark light" />
+    <meta property="og:title" content="GoodNet — networking integrator kernel" />
+    <meta
+      property="og:description"
+      content="Multi-path transports, plug-in security, peer-key addressing, real SSH replacement."
+    />
+    <meta property="og:url" content="https://goodnet-io.github.io/" />
+    <meta property="og:type" content="website" />
+    <title>GoodNet — networking integrator kernel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">◊</span>
+        <span class="brand-name">GoodNet</span>
+      </a>
+      <nav class="site-nav">
+        <a href="#demo">Demo</a>
+        <a href="#tech">Tech</a>
+        <a href="#repos">Repos</a>
+        <a
+          class="external"
+          href="https://github.com/GoodNet-io/goodnet"
+          target="_blank"
+          rel="noopener"
+          >GitHub</a
+        >
+        <button
+          id="theme-toggle"
+          class="theme-toggle"
+          type="button"
+          title="Toggle theme"
+          aria-label="Toggle theme"
+        >
+          <span class="theme-icon">◐</span>
+        </button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-inner">
+          <h1>
+            <span class="hero-eyebrow">A networking integrator kernel.</span>
+            <span class="hero-title">Carry one binary and a keypair.</span>
+          </h1>
+          <p class="hero-sub">
+            Multi-path transports, plug-in security, peer-key addressing, a
+            real SSH replacement. The kernel is minimal — the brand is the
+            ecosystem.
+          </p>
+          <div class="hero-ctas">
+            <a class="btn primary" href="#demo">Try the live demo</a>
+            <a
+              class="btn"
+              href="https://github.com/GoodNet-io/goodnet"
+              target="_blank"
+              rel="noopener"
+              >Read the kernel</a
+            >
+          </div>
+          <pre class="hero-code"><code>gn::sdk::Core core;
+auto session = core.connect_to("ice://QFK4...XYZ7");
+session.send("hello");</code></pre>
+        </div>
+      </section>
+
+      <section class="section" id="demo">
+        <div class="section-head">
+          <h2>Live counter demo</h2>
+          <p>
+            Open this page in two tabs. Each tab dials a local
+            <code>goodnetd</code> via the
+            <code>handler-web-api-proxy</code> WebSocket gateway and bumps a
+            shared counter. The kernel routes the event between tabs.
+          </p>
+        </div>
+
+        <div class="demo">
+          <div class="demo-controls">
+            <label for="ws-url">Daemon WebSocket URL</label>
+            <div class="demo-input-row">
+              <input
+                id="ws-url"
+                type="text"
+                spellcheck="false"
+                autocomplete="off"
+                value="ws://localhost:9100"
+              />
+              <button id="ws-connect" class="btn primary" type="button">
+                Connect
+              </button>
+              <button id="ws-disconnect" class="btn" type="button" disabled>
+                Disconnect
+              </button>
+            </div>
+            <div class="demo-status" role="status" aria-live="polite">
+              <span class="status-dot" id="status-dot" data-state="idle"></span>
+              <span id="status-text">Not connected.</span>
+            </div>
+            <dl class="demo-stats">
+              <div>
+                <dt>Peer pubkey</dt>
+                <dd id="peer-pubkey">—</dd>
+              </div>
+              <div>
+                <dt>Latency</dt>
+                <dd id="latency">—</dd>
+              </div>
+              <div>
+                <dt>Conn ID</dt>
+                <dd id="conn-id">—</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div class="demo-counter">
+            <span class="counter-label">Shared counter</span>
+            <span class="counter-value" id="counter-value">0</span>
+            <button id="counter-bump" class="btn primary big" type="button">
+              ++
+            </button>
+            <p class="counter-hint">
+              <strong>No daemon yet?</strong> Start one locally:
+              <code>goodnetd --config etc/quickstart.yaml</code> (see
+              <a
+                href="https://github.com/GoodNet-io/goodnetd"
+                target="_blank"
+                rel="noopener"
+                >goodnetd</a
+              >). Then open this page in
+              <em>two browser tabs</em> to see the counter sync.
+            </p>
+          </div>
+        </div>
+
+        <div class="card placeholder">
+          <h3>Plan B — browser-as-peer (WASM kernel)</h3>
+          <p>
+            <code>goodnet-js</code> ships a stable v0.2 type surface for the
+            in-tab WASM kernel; <code>WasmTransport.create()</code> throws a
+            documented "pending impl" until the emscripten <code>Module</code>
+            exports are pinned. When v0.3 lands here, this card swaps for a
+            real working WASM demo — no daemon required.
+          </p>
+          <a
+            class="link"
+            href="https://github.com/GoodNet-io/bridges-js"
+            target="_blank"
+            rel="noopener"
+            >Track v0.3 in bridges-js →</a
+          >
+        </div>
+      </section>
+
+      <section class="section" id="tech">
+        <div class="section-head">
+          <h2>Tech breakdown</h2>
+          <p>Four building blocks that make GoodNet tick.</p>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <h3>Multi-path transport</h3>
+            <p>
+              Every connection is a bundle of paths. A strategy plugin
+              (RTT-optimal, redundant, manual) picks which carrier to send on,
+              switches mid-flight on degradation, and reorders inbound by
+              cryptographic counter — never by socket.
+            </p>
+            <div class="arch-diagram" id="arch-diagram-slot"></div>
+          </article>
+
+          <article class="card">
+            <h3>Plugin ecosystem</h3>
+            <p>
+              The kernel exposes a stable C ABI. Plugins compose into the
+              dispatch chain at load time.
+            </p>
+            <ul class="plugin-list">
+              <li>
+                <strong>link-*</strong> — TCP, UDP, WebSocket, TLS, IPC, QUIC,
+                ICE NAT-traversal.
+              </li>
+              <li>
+                <strong>security-*</strong> — Noise XX/IK, PKCS#11 HSM, null
+                (loopback).
+              </li>
+              <li>
+                <strong>handler-*</strong> — heartbeat, DNS, distributed store,
+                web-api-proxy.
+              </li>
+              <li>
+                <strong>strategy-*</strong> — RTT-floating multi-path
+                scheduler.
+              </li>
+              <li><strong>bridges-*</strong> — C++, JS, Python, Rust.</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Identity & HSM</h3>
+            <p>
+              Peer addresses are Ed25519 pubkeys. The signing key can sit in a
+              YubiKey or any PKCS#11 token — kernel never sees the secret.
+            </p>
+            <pre><code>// Phase 5 — HSM-backed identity
+gn::sdk::Identity id = gn::sdk::Identity::from_pkcs11(
+  "/usr/lib/libykcs11.so",
+  /*slot*/ 0,
+  /*pin*/ getenv("GN_PIN"));
+auto core = gn::sdk::Core::with_identity(id);
+auto sess = core.connect_to("ice://peer-pubkey-base32");</code></pre>
+          </article>
+
+          <article class="card">
+            <h3>gssh — peer-pubkey SSH</h3>
+            <p>
+              A native SSH-2.0 server / client that authenticates by GoodNet
+              peer pubkey. No <code>authorized_keys</code> to sync — the
+              address <em>is</em> the credential.
+            </p>
+            <pre><code># dial a host by its pubkey, no DNS or IP
+gssh user@QFK4M7N2-XYZ7-A9KL-VBC3-RT8P</code></pre>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="repos">
+        <div class="section-head">
+          <h2>Repositories</h2>
+          <p>
+            22 repos, one license decision per layer (kernel GPL-2.0+linking
+            exception, SDK MIT, plugins their own).
+          </p>
+        </div>
+        <div class="repo-grid" id="repo-grid"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <strong>GoodNet</strong> · MIT-licensed demo ·
+          <a
+            href="https://github.com/GoodNet-io/goodnet/blob/main/LICENSE"
+            target="_blank"
+            rel="noopener"
+            >kernel license</a
+          >
+        </div>
+        <div>
+          <a
+            href="https://github.com/GoodNet-io/goodnet/blob/main/CONTRIBUTING.md"
+            target="_blank"
+            rel="noopener"
+            >Contributing</a
+          >
+          ·
+          <a
+            href="https://github.com/GoodNet-io/goodnet/blob/main/docs/ROADMAP.md"
+            target="_blank"
+            rel="noopener"
+            >Roadmap</a
+          >
+          ·
+          <a
+            href="https://github.com/GoodNet-io/.github/blob/main/profile/README.md"
+            target="_blank"
+            rel="noopener"
+            >Org profile</a
+          >
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
