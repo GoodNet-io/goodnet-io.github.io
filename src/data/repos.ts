@@ -27,6 +27,12 @@ export const REPOS: readonly RepoEntry[] = [
     group: "kernel",
   },
   {
+    name: "protocol-raw",
+    description:
+      "Raw-v1 protocol layer — extracted protocol-gnet sibling for low-level frame injection.",
+    group: "kernel",
+  },
+  {
     name: "goodnetd",
     description:
       "Operator daemon + multicall CLI: run, config validate, identity gen, quickstart.",
@@ -90,6 +96,18 @@ export const REPOS: readonly RepoEntry[] = [
       "ICE NAT-traversal link — RFC 8445 FSM + STUN + TURN + Trickle ICE + mDNS.",
     group: "link",
   },
+  {
+    name: "link-ws-inject",
+    description:
+      "WebSocket inject link — injects raw frames into a running ws:// carrier session.",
+    group: "link",
+  },
+  {
+    name: "link-portmap",
+    description:
+      "NAT port-mapping link — NAT-PMP / PCP / UPnP IGD external address discovery for ICE.",
+    group: "link",
+  },
 
   // security
   {
@@ -132,6 +150,18 @@ export const REPOS: readonly RepoEntry[] = [
     name: "handler-web-api-proxy",
     description:
       "Browser-gateway plugin — WS endpoint, JSON-RPC over gnet envelopes.",
+    group: "handler",
+  },
+  {
+    name: "handler-mycelium",
+    description:
+      "Mycelium overlay routing handler — subnet-addressed messaging over the Mycelium network.",
+    group: "handler",
+  },
+  {
+    name: "handler-zstd-decompress",
+    description:
+      "Streaming zstd decompression handler — transparent payload decompression on ingress.",
     group: "handler",
   },
 

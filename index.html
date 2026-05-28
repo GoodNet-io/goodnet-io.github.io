@@ -137,13 +137,19 @@ session.send("hello");</code></pre>
               ++
             </button>
             <p class="counter-hint">
-              <strong>No daemon yet?</strong> Start one locally:
-              <code>goodnetd --config etc/quickstart.yaml</code> (see
+              <strong>No daemon yet?</strong>
+              Install and start one locally:
+              <code>nix profile add github:GoodNet-io/goodnetd#full</code>
+              then <code>goodnetd quickstart</code> and
+              <code>goodnetd run --config ~/.local/share/goodnet/config.json
+  --manifest ~/.local/share/goodnet/manifests/baseline.json
+  --identity ~/.local/share/goodnet/identity/default.bin</code>
+              (full setup guide:
               <a
                 href="https://github.com/GoodNet-io/goodnetd"
                 target="_blank"
                 rel="noopener"
-                >goodnetd</a
+                >goodnetd README</a
               >). Then open this page in
               <em>two browser tabs</em> to see the counter sync.
             </p>
@@ -274,7 +280,7 @@ gssh user@QFK4M7N2-XYZ7-A9KL-VBC3-RT8P</code></pre>
           >
           ·
           <a
-            href="https://github.com/GoodNet-io/goodnet/blob/main/docs/ROADMAP.md"
+            href="https://github.com/GoodNet-io/goodnet/blob/main/docs/ROADMAP.en.md"
             target="_blank"
             rel="noopener"
             >Roadmap</a
