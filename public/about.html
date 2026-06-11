@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About — Ivan / GoodNet</title>
+  <meta name="description" content="Ivan (Vaniell0). I build GoodNet — a networking integrator kernel in modern C++." />
+  <meta property="og:title" content="About — Ivan / GoodNet" />
+  <meta property="og:description" content="Ivan (Vaniell0). I build GoodNet — a networking integrator kernel in modern C++." />
+  <meta property="og:type" content="profile" />
+  <meta property="og:url" content="https://goodnet-io.github.io/about.html" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --text: #1a1a1a;
+      --muted: #555;
+      --border: #d4d4d4;
+      --bg: #fefefe;
+      --accent: #0066cc;
+      --font: Georgia, "Times New Roman", serif;
+      --mono: "SF Mono", "Fira Code", Consolas, monospace;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text: #e8e8e8;
+        --muted: #999;
+        --border: #333;
+        --bg: #0f0f0f;
+        --accent: #4da6ff;
+      }
+    }
+
+    html { font-size: 18px; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      padding: 3rem 1.5rem 6rem;
+    }
+
+    article {
+      max-width: 34rem;
+      margin: 0 auto;
+    }
+
+    header { margin-bottom: 3rem; }
+
+    h1 {
+      font-size: 2rem;
+      line-height: 1.2;
+      font-weight: normal;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+
+    .byline {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+
+    p { margin-bottom: 1.2rem; }
+
+    em { font-style: italic; }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.5rem 0;
+    }
+
+    footer {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+
+    footer a, .links a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    footer a:hover, .links a:hover { text-decoration: underline; }
+
+    .links {
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      font-family: var(--mono);
+    }
+
+    .links p { margin-bottom: 0.4rem; }
+  </style>
+</head>
+<body>
+<article>
+  <header>
+    <h1>About</h1>
+    <p class="byline"><a href="https://github.com/Vaniell0">@Vaniell0</a></p>
+  </header>
+
+  <p>I'm Ivan (<a href="https://github.com/Vaniell0">@Vaniell0</a>). I build GoodNet.</p>
+
+  <p>GoodNet is a networking integrator kernel in modern C++: a small core with a stable C ABI as its only fixed boundary. Everything else — transports, crypto providers, NAT traversal, protocol layers, handlers, identity signers — is a plugin behind that ABI. The kernel is not allowed to know what a transport is, what a cipher is, or what an application is. It tracks logical connections, typed messages, public-key addresses, and registered handlers, and nothing more. The most reliable system I know how to build is one shaped by what it isn't allowed to be.</p>
+
+  <p>I'm an engineer to the bone. I got serious about it as a child — not in the way adults assume children get serious, which they usually don't, but in the way that, looking back, was already a decision. From there it never really stopped: mathematics and physics because the world is built that way and I wanted to read its handwriting; social and humanistic subjects because the world is also built out of people and you cannot understand it by accepting other people's conclusions about them, you have to gather mass and live it, even without pretty speeches; engineering as the shape that lets the first two become something you can hand to another person. The way the project is documented, tested, analyzed, structured — those aren't a style I picked up. They're projections of how I think when I'm thinking honestly.</p>
+
+  <p>GoodNet's current kernel is the fifth full rewrite of the same line of ideas. The earlier four grew over several years; each was larger than the last and each was wrong in a way I could not fix incrementally. The fifth exists because identity was wrong in the fourth, and identity at the wrong layer is not a patch-level problem. The authoritative artifacts of the project live in <code>docs/contracts/</code> — the contracts are the load-bearing decisions and they move first; the code follows. That ordering is the practice I keep.</p>
+
+  <p>Two things upfront, because you'll find them anyway and I'd rather you hear them from me. I'm a freshman — I prefer the work to speak before the bio does. And the current iteration of the kernel (about a month's work) was written together with Claude Opus 4.7: I designed the architecture and the contracts; Claude wrote the implementation under that design; the commits are joint. I think both facts make the project more interesting to look at, not less.</p>
+
+  <p>I'm not a designer. Anything visible I make tops out around average; I've spent far more of my life in a terminal than anywhere with pixels. What I have is patience and a habit of treating constraints as the thing that makes the answer good.</p>
+
+  <p>If you want to talk: open an issue or a discussion on the repository, or reach me by email (linked from the org profile). I don't run a chat server and I'm not trying to grow a community here — just to build the thing and let it find the people who need it.</p>
+
+  <hr />
+
+  <div class="links">
+    <p><a href="https://github.com/GoodNet-io/goodnet" rel="noopener">GoodNet kernel</a></p>
+    <p><a href="/no-one-took-your-freedom.html">No One Took Your Freedom</a> — essay</p>
+    <p><a href="https://goodnet-io.github.io/">goodnet-io.github.io</a></p>
+  </div>
+</article>
+</body>
+</html>
