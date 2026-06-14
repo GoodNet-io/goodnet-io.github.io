@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Network Layer We Always Deserved</title>
+  <meta name="description" content="Every programmer has fought the network. That fight was never necessary. It was an architectural error made in 1983." />
+  <meta property="og:title" content="The Network Layer We Always Deserved" />
+  <meta property="og:description" content="Thirty years of the right idea in the wrong place — and what happens when it finally lands." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://goodnet-io.github.io/the-network-layer.html" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --text: #1a1a1a;
+      --muted: #555;
+      --border: #d4d4d4;
+      --bg: #fefefe;
+      --accent: #0066cc;
+      --font: Georgia, "Times New Roman", serif;
+      --mono: "SF Mono", "Fira Code", Consolas, monospace;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text: #e8e8e8;
+        --muted: #999;
+        --border: #333;
+        --bg: #0f0f0f;
+        --accent: #4da6ff;
+      }
+    }
+
+    html { font-size: 18px; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      padding: 3rem 1.5rem 6rem;
+    }
+
+    article {
+      max-width: 34rem;
+      margin: 0 auto;
+    }
+
+    header { margin-bottom: 3rem; }
+
+    h1 {
+      font-size: 2rem;
+      line-height: 1.2;
+      font-weight: normal;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+
+    .byline {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+
+    h2 {
+      font-size: 1rem;
+      font-weight: bold;
+      margin-top: 2.5rem;
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+
+    p { margin-bottom: 1.2rem; }
+
+    em { font-style: italic; }
+
+    code {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      background: color-mix(in srgb, var(--text) 6%, transparent);
+      padding: 0.1em 0.35em;
+      border-radius: 3px;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.5rem 0;
+    }
+
+    footer {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+
+    footer a, .links a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    footer a:hover, .links a:hover { text-decoration: underline; }
+
+    .links {
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      font-family: var(--mono);
+    }
+
+    .links p { margin-bottom: 0.4rem; }
+  </style>
+</head>
+<body>
+<article>
+  <header>
+    <h1>The Network Layer We Always Deserved</h1>
+    <p class="byline">GoodNet-io — June 2026</p>
+  </header>
+
+  <p>Every programmer knows this.</p>
+
+  <p>You write something that needs to talk to another machine. Maybe it is a game server, a personal tool, a service for a handful of friends. The code takes a day. The networking takes a week. You open ports. You configure a firewall. You buy a domain, set up DNS, wait for propagation. You get a TLS certificate, automate its renewal, handle the edge case where renewal fails at 3am. You set up a VPN so your laptop can reach the server when you are not home. You add the server to <code>known_hosts</code> and then do it again when you rebuild the machine and the key changes. You pay a cloud provider seventeen dollars a month for the privilege of having a stable IP address.</p>
+
+  <p>This is so normal that most programmers do not think of it as pain. It is just <em>how networking works</em>. It is the tax you pay for connectivity.</p>
+
+  <p>But it is not a law of nature. It is an architectural decision made in 1983 that nobody has fully reversed since.</p>
+
+  <p>The decision was simple: in TCP/IP, the address belongs to the <em>machine</em>, not the <em>participant</em>. An IP address describes a location in a network topology. It says nothing about who is there. Identity — the question of <em>who</em> is on the other end — was supposed to be handled at the application layer, as someone else's problem. DNS was bolted on to give locations human-readable names. TLS certificates were bolted on to give locations claimed identities. VPNs were bolted on to make private addresses routable. NAT was bolted on to stretch the address space. <code>known_hosts</code> was bolted on to remember which key belonged to which address.</p>
+
+  <p>Forty years of bolt-ons. Every one of them exists because the original design separated location from identity and left identity for later. Later never came.</p>
+
+  <hr />
+
+  <h2>Thirty Years of the Right Idea</h2>
+
+  <p>The computer science community has understood this problem for a long time. The understanding just never converged into one place.</p>
+
+  <p>In 1994, Dawson Engler and Frans Kaashoek published the exokernel paper at MIT. Their argument: operating system kernels implement <em>abstractions</em> — virtual memory, file systems, process scheduling — and force every application to use those abstractions even when they are wrong. A database knows how to manage its own memory better than the general-purpose allocator. A real-time system knows how to schedule its own threads better than the OS scheduler. The kernel was getting in the way. Their answer: the kernel should do exactly one thing — securely multiplex hardware resources — and let applications build whatever abstractions make sense for them.</p>
+
+  <p>The exokernel was architecturally correct. It was hard to program. The abstraction problem turned out to be real in both directions: removing abstractions from the OS pushed all the complexity into every application. The research line continued but never reached production at scale.</p>
+
+  <p>In parallel, the microkernel tradition worked through the same insight from a different angle. Mach, L4, eventually seL4 with formal verification. Keep the kernel minimal — IPC, memory protection, scheduling primitives — and push everything else into user-space servers. The kernel enforces isolation; policy lives above it. Microkernels work. But a general-purpose microkernel still carries the original IP networking model underneath. The address is still the machine's.</p>
+
+  <p>Then the unikernel movement: MirageOS, OSv, IncludeOS. Compile your application together with exactly the OS components it needs. No filesystem driver if you do not use files. No TCP stack if you implement your own. The result is a small, fast, single-purpose binary. Unikernels solved the deployment problem. They did not solve the identity problem. The address was still the machine's.</p>
+
+  <p>Meanwhile, a quieter tradition built the cryptographic foundation a real solution would need. The Noise Protocol Framework. Ed25519. QUIC and TLS 1.3 as first-class transport security. The capability-based security tradition — from KeyKOS in 1985 through EROS and seL4 — developed the idea that access and identity should be the same cryptographic object: a capability you hold is a proof that you can act.</p>
+
+  <p>All the pieces existed. Nobody assembled them specifically for the network layer and asked: what if we built a minimal kernel for networking, the way the exokernel asked about operating systems in 1994, but this time we put identity at the foundation instead of bolting it on top?</p>
+
+  <hr />
+
+  <h2>The Inversion</h2>
+
+  <p>GoodNet starts from a single premise that changes everything that follows: <em>the address is the key</em>.</p>
+
+  <p>Not a hostname. Not an IP address. Not a certificate with a chain of trust back to a root CA. An Ed25519 public key — thirty-two bytes — <em>is</em> the peer. The private key never leaves the device that generated it. No authority issued it. No authority can revoke it. When you connect to a peer, you dial its public key. The network figures out where it is. If the peer moves to a different IP, changes ISPs, switches from cellular to WiFi — the address is still the same thirty-two bytes.</p>
+
+  <p>This is not a small change. It cascades.</p>
+
+  <p><code>known_hosts</code> does not exist because there is nothing to track. The key <em>is</em> the identity. If you dialed the key and the handshake succeeded, you are talking to the right peer. A machine rebuild changes the host IP; it does not change the key.</p>
+
+  <p>Certificate authorities do not exist because there is no chain of trust to establish. Trust is established directly, peer to peer, through mutual cryptographic attestation. Both sides prove they hold the private key corresponding to the public key the other side expects. The kernel enforces this: a connection starts <em>untrusted</em> and can only reach <em>peer</em> status after attestation succeeds. There is no configuration option to skip this.</p>
+
+  <p>VPNs — in the sense of infrastructure you need so your laptop can reach your server — become optional. If both endpoints have keys and can reach any shared relay, they connect. NAT traversal is handled. The relay upgrades to a direct path when one becomes available.</p>
+
+  <p>The seventeen-dollar cloud VM with a stable IP becomes optional. The peer has a key. The key is routable.</p>
+
+  <p>None of this required inventing new cryptography. It required putting the existing cryptography at the foundation, not on top.</p>
+
+  <hr />
+
+  <h2>What a Minimal Network Kernel Looks Like</h2>
+
+  <p>If you are going to build a kernel for the network layer — minimal, policy-free, composable — you have to decide what goes in it and what does not. The temptation is to put things in.</p>
+
+  <p>GoodNet's kernel holds exactly four classes of state: a connection registry, a handler registry, a security registry, an extension registry. That is the list. There is no routing table. No session manager. No reconnect logic. No path selection. No wire format parser beyond the two fields the kernel needs for dispatch. The kernel does not dial connections. It does not choose transports. It does not decide when to retry.</p>
+
+  <p>Every decision that reasonably varies between deployments lives in a plugin. Transport — TCP, UDP, QUIC, WebSocket, IPC, ICE — is a plugin. Encryption is a plugin. Message handling is a plugin. Path selection is a plugin.</p>
+
+  <p>A plugin is not an extension to a core system. The kernel <em>without</em> plugins does nothing. There is no default behavior. The operator's plugin selection is not configuration — it is the definition of what the system is.</p>
+
+  <p>This inverts the usual relationship between kernel and extensions. In a traditional framework, the framework has opinions and you override them. Here, the kernel has no opinions. It cannot. It does not know what opinions to have.</p>
+
+  <hr />
+
+  <h2>What Collapsed</h2>
+
+  <p>The infrastructure industry spent twenty years building machinery to manage distributed systems. Kubernetes, Istio, Consul, etcd, Prometheus, a service mesh, a control plane, sidecar proxies, certificate rotation daemons. Each piece solves a real problem. Together they weigh more than the applications they host.</p>
+
+  <p>The problems they solve are real. The weight exists because they were built on top of an address model that does not include identity. When the address is the machine's, you need out-of-band systems to track which machine has which service, which certificate belongs to which service, which service is allowed to call which other service. You need a control plane because nothing in the data plane knows who anyone is.</p>
+
+  <p>When identity is foundational, these concerns collapse inward. Service discovery becomes the question of learning keys — a handler plugin concern, not an infrastructure concern. Traffic policy becomes a trust class the kernel already enforces. Rolling updates happen at the plugin level, not the cluster level. The infrastructure weight is not inevitable. It is the cost of the 1983 decision.</p>
+
+  <hr />
+
+  <h2>No Runtime Assumptions</h2>
+
+  <p>There is one more thing the exokernel tradition pointed toward that GoodNet inherits: no assumptions about the runtime environment.</p>
+
+  <p>The kernel's only dependency on the outside world is through the link plugin. The plugin owns its I/O context. The kernel never touches a socket. It receives events and dispatches. This means the same kernel binary runs as a Linux daemon, as a library loaded into any application through a C FFI call, as a WebAssembly module in a browser, and on a microcontroller where the link plugin uses DMA instead of sockets.</p>
+
+  <p>The chameleon quality is not a porting effort. It is the direct consequence of having no runtime assumptions. You cannot port something that never assumed an environment. The plugins adapt to the environment; the kernel does not need to.</p>
+
+  <hr />
+
+  <h2>The Breed</h2>
+
+  <p>GoodNet is a domain-specific kernel for the network layer. The application of thirty years of systems research — exokernels, microkernels, unikernels, capability-based security, modern cryptographic protocols — specifically to the problem that has caused more programmer-hours of pain than almost anything else: the fact that the network layer has no concept of who is there.</p>
+
+  <p>The exokernel tradition asked: what if the OS kernel did less? GoodNet asks: what if the network kernel did less, and put identity at the foundation of what it does do?</p>
+
+  <p>The microkernel tradition asked: what if we separated mechanism from policy? GoodNet makes the separation total. The kernel cannot express policy. It has no vocabulary for it.</p>
+
+  <p>The unikernel tradition asked: what if you compiled exactly what you needed? GoodNet asks: what if the operator composed exactly what is needed at deployment time, from independently versioned plugins, without recompiling anything?</p>
+
+  <p>None of these traditions produced this combination. Each solved part of the problem in its domain and stopped. The connection between "the kernel should be minimal" and "the address should be the key" and "composition should happen at runtime through a stable ABI" — that connection is what was missing.</p>
+
+  <p>Every programmer who has fought a firewall, paid for a stable IP, renewed a TLS certificate, or typed <code>ssh-keyscan</code> into a <code>known_hosts</code> file was paying the tax of the 1983 decision. The tax was not inevitable. It was a design choice, and design choices can be unmade.</p>
+
+  <p>This is the network layer we always deserved.</p>
+
+  <hr />
+
+  <footer>
+    <p>GoodNet is pre-1.0 software in active development. <a href="https://github.com/GoodNet-io/goodnet" target="_blank" rel="noopener">github.com/GoodNet-io</a></p>
+    <div class="links">
+      <p>← <a href="/no-one-took-your-freedom.html">No One Took Your Freedom</a> — on how free things become toll booths</p>
+      <p>→ <a href="/">Back to GoodNet</a></p>
+    </div>
+  </footer>
+</article>
+</body>
+</html>
