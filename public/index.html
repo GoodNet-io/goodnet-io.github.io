@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GoodNet</title>
+  <meta name="description" content="A networking kernel where the address is a 32-byte Ed25519 key, not a machine location." />
+  <meta property="og:title" content="GoodNet" />
+  <meta property="og:description" content="A networking kernel where the address is a 32-byte Ed25519 key, not a machine location." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://goodnet-io.github.io/" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --text: #1a1a1a;
+      --muted: #555;
+      --border: #d4d4d4;
+      --bg: #fefefe;
+      --accent: #0066cc;
+      --font: Georgia, "Times New Roman", serif;
+      --mono: "SF Mono", "Fira Code", Consolas, monospace;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text: #e8e8e8;
+        --muted: #999;
+        --border: #333;
+        --bg: #0f0f0f;
+        --accent: #4da6ff;
+      }
+    }
+
+    html { font-size: 18px; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      padding: 3rem 1.5rem 6rem;
+    }
+
+    article {
+      max-width: 34rem;
+      margin: 0 auto;
+    }
+
+    header { margin-bottom: 3rem; }
+
+    h1 {
+      font-size: 2rem;
+      line-height: 1.2;
+      font-weight: normal;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+
+    .tagline {
+      font-size: 0.95rem;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.5rem 0;
+    }
+
+    .links {
+      font-size: 0.95rem;
+      font-family: var(--mono);
+    }
+
+    .links p { margin-bottom: 0.5rem; }
+
+    .links a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .links a:hover { text-decoration: underline; }
+
+    .section-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.75rem;
+      margin-top: 2rem;
+    }
+
+    footer {
+      margin-top: 3rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+  </style>
+</head>
+<body>
+<article>
+  <header>
+    <h1>GoodNet</h1>
+    <p class="tagline">The address is a 32-byte Ed25519 key, not a machine location.</p>
+  </header>
+
+  <div class="links">
+    <p class="section-label">Essays</p>
+    <p><a href="/no-one-took-your-freedom.html">No One Took Your Freedom</a></p>
+    <p><a href="/the-network-layer.html">The Network Layer We Always Deserved</a></p>
+
+    <p class="section-label">Project</p>
+    <p><a href="https://github.com/GoodNet-io/goodnet" rel="noopener">github.com/GoodNet-io/goodnet</a></p>
+    <p><a href="/about.html">About</a></p>
+  </div>
+
+  <hr />
+
+  <footer>
+    <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a>
+  </footer>
+</article>
+</body>
+</html>

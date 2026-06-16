@@ -12,6 +12,7 @@
       --muted: #555;
       --border: #d4d4d4;
       --bg: #fefefe;
+      --accent: #0066cc;
       --font: Georgia, "Times New Roman", serif;
       --mono: "SF Mono", "Fira Code", Consolas, monospace;
     }
@@ -22,6 +23,7 @@
         --muted: #999;
         --border: #333;
         --bg: #0f0f0f;
+        --accent: #4da6ff;
       }
     }
 
@@ -70,6 +72,12 @@
       color: var(--muted);
       font-family: var(--mono);
     }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    footer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -105,7 +113,10 @@
 
   <hr />
 
-  <footer>goodnet-io.github.io</footer>
+  <footer>
+    <p>← <a href="/no-one-took-your-freedom.html">No One Took Your Freedom</a></p>
+    <p><a href="https://goodnet-io.github.io/">goodnet-io.github.io</a> · <a href="https://creativecommons.org/licenses/by/4.0/" rel="license noopener">CC BY 4.0</a></p>
+  </footer>
 </article>
 </body>
 </html>
